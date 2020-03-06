@@ -1,16 +1,12 @@
 "use strict";
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Generation = sequelize.define("Generation", {
     position: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   });
-  Generation.associate = function(models) {
-    Generation.hasMany(models.person, {
-      foreignKey: "generationId",
-      as: "persons"
-    });
+  Generation.associate = models => {
     Generation.belongsTo(models.Family, {
       foreignKey: "familyId",
       onDelete: "CASCADE"
