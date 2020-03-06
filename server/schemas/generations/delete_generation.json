@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "familyId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "generationId": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }

@@ -1,11 +1,27 @@
 const Family = require("../models").Family;
 const Generation = require("../models").Generation;
 const getToken = require("../helpers").getToken;
+const ajv = require("../utils/ajv");
+const validPostItemParams = ajv.compile(
+  require("../schemas/families/post_family.json")
+);
+
+const validDeleteItemParams = ajv.compile(
+  require("../schemas/families/delete_family.json")
+);
 
 module.exports = {
   create(req, res) {
     var token = getToken(req.headers);
     if (token) {
+      // check params
+      if (!validPostItemParams(req.params)) {
+        return res.status(400).json({
+          message: "Invalid params",
+          error: validPostItemParams.errors
+        });
+      }
+
       return Family.create({
         name: req.body.name
       })
@@ -36,6 +52,13 @@ module.exports = {
   destroy(req, res) {
     var token = getToken(req.headers);
     if (token) {
+      // check params
+      if (!validDeleteItemParams(req.params)) {
+        return res.status(400).json({
+          message: "Invalid params",
+          error: validDeleteItemParams.errors
+        });
+      }
       return Family.findByPk(req.params.familyId)
         .then(family => {
           if (!family) {
