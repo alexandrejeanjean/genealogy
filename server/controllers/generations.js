@@ -1,11 +1,27 @@
 const Generation = require("../models").Generation;
 const People = require("../models").People;
 const getToken = require("../helpers").getToken;
+const ajv = require("../utils/ajv");
+
+const validPostItemParams = ajv.compile(
+  require("../schemas/generations/post_generation.json")
+);
+
+const validDeleteItemParams = ajv.compile(
+  require("../schemas/generations/delete_generation.json")
+);
 
 module.exports = {
   create(req, res) {
     var token = getToken(req.headers);
     if (token) {
+      // check params
+      if (!validPostItemParams(req.params)) {
+        return res.status(400).json({
+          message: "Invalid params",
+          error: validPostItemParams.errors
+        });
+      }
       return Generation.create({
         position: req.body.position,
         familyId: req.params.familyId
@@ -41,6 +57,12 @@ module.exports = {
   destroy(req, res) {
     var token = getToken(req.headers);
     if (token) {
+      if (!validDeleteItemParams(req.params)) {
+        return res.status(400).json({
+          message: "Invalid params",
+          error: validDeleteItemParams.errors
+        });
+      }
       return Generation.findOne({
         where: {
           familyId: req.params.familyId,
