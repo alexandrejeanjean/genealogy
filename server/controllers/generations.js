@@ -16,7 +16,7 @@ module.exports = {
     var token = getToken(req.headers);
     if (token) {
       // check params
-      if (!validPostItemParams(req.params)) {
+      if (!validPostItemParams(req.body)) {
         return res.status(400).json({
           message: "Invalid params",
           error: validPostItemParams.errors
