@@ -7,6 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   Generation.associate = models => {
+    Generation.hasMany(models.People, {
+      foreignKey: "generationId",
+      as: "peoples"
+    });
     Generation.belongsTo(models.Family, {
       foreignKey: "familyId",
       onDelete: "CASCADE"
