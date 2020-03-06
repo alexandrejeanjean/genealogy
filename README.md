@@ -1,0 +1,2 @@
+# genealogy
+Simple genealogy API
