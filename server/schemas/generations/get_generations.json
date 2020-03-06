@@ -1,0 +1,12 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "position": {
+        "type": "string"
+      },
+      "peoples": {
+        "type": "array"
+      }
+    }
+  }

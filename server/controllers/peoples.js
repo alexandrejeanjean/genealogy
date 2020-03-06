@@ -1,10 +1,25 @@
 const People = require("../models").People;
 const getToken = require("../helpers").getToken;
+const ajv = require("../utils/ajv");
 
+const validPostItemParams = ajv.compile(
+  require("../schemas/peoples/post_people.json")
+);
+
+const validDeleteItemParams = ajv.compile(
+  require("../schemas/peoples/delete_people.json")
+);
 module.exports = {
   create(req, res) {
     var token = getToken(req.headers);
     if (token) {
+      // check params
+      if (!validPostItemParams(req.params)) {
+        return res.status(400).json({
+          message: "Invalid params",
+          error: validPostItemParams.errors
+        });
+      }
       return People.create({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -37,6 +52,13 @@ module.exports = {
   destroy(req, res) {
     var token = getToken(req.headers);
     if (token) {
+      // check params
+      if (!validDeleteItemParams(req.params)) {
+        return res.status(400).json({
+          message: "Invalid params",
+          error: validDeleteItemParams.errors
+        });
+      }
       return People.findOne({
         where: {
           familyId: req.params.familyId,

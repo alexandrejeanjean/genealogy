@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+      "firstname": {
+        "type": "string",
+        "minLength": 1
+      },
+      "lastname": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
