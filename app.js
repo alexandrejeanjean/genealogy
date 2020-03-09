@@ -19,7 +19,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require("./server/config/passport")(passport);
 
 // Require our routes into the application.
-require("./server/routes")(app);
+require("./server/routes/public")(app);
+require("./server/routes/private")(app);
 
 // Setup a default catch-all route that sends back a welcome
 app.get("*", (req, res) =>
