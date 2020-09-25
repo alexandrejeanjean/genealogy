@@ -1,6 +1,7 @@
 const familiesController = require('../../controllers').families
 const generationsController = require('../../controllers').generations
 const peoplesController = require('../../controllers').peoples
+const usersController = require('../../controllers').users
 const userMiddlewares = require('../../middlewares').user
 const passport = require('passport')
 
@@ -9,6 +10,14 @@ module.exports = (app) => {
     res.status(200).send({
       message: 'Welcome to the genealogy API!',
     })
+  )
+
+  // User infos routes
+  app.get(
+    '/api/me',
+    userMiddlewares.checkToken,
+    passport.authenticate('jwt', { session: false }),
+    usersController.getMe
   )
 
   // Families routes
