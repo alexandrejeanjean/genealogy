@@ -1,83 +1,99 @@
-const familiesController = require('../../controllers').families
-const generationsController = require('../../controllers').generations
-const peoplesController = require('../../controllers').peoples
-const usersController = require('../../controllers').users
-const userMiddlewares = require('../../middlewares').user
-const passport = require('passport')
+const familiesController = require("../../controllers").families;
+const generationsController = require("../../controllers").generations;
+const peoplesController = require("../../controllers").peoples;
+const rolesController = require("../../controllers").roles;
+const usersController = require("../../controllers").users;
+const userMiddlewares = require("../../middlewares").user;
+const passport = require("passport");
 
 module.exports = (app) => {
-  app.get('/api', (req, res) =>
+  app.get("/api", (req, res) =>
     res.status(200).send({
-      message: 'Welcome to the genealogy API!',
+      message: "Welcome to the genealogy API!",
     })
-  )
+  );
 
   // User infos routes
   app.get(
-    '/api/me',
+    "/api/me",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
     usersController.getMe
-  )
+  );
+
+  // People roles routes
+  app.post(
+    "/api/roles",
+    userMiddlewares.checkToken,
+    passport.authenticate("jwt", { session: false }),
+    rolesController.create
+  );
+
+  app.get(
+    "/api/roles",
+    userMiddlewares.checkToken,
+    passport.authenticate("jwt", { session: false }),
+    rolesController.list
+  );
 
   // Families routes
   app.post(
-    '/api/families',
+    "/api/families",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
     familiesController.create
-  )
+  );
   app.get(
-    '/api/families',
+    "/api/families",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
     familiesController.list
-  )
+  );
   app.delete(
-    '/api/families/:familyId',
-    passport.authenticate('jwt', { session: false }),
+    "/api/families/:familyId",
+    passport.authenticate("jwt", { session: false }),
     userMiddlewares.checkToken,
     familiesController.destroy
-  )
+  );
 
   // Generations routes
   app.post(
-    '/api/families/:familyId/generations',
+    "/api/families/:familyId/generations",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
     generationsController.create
-  )
+  );
   app.get(
-    '/api/families/:familyId/generations',
+    "/api/families/:familyId/generations",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
     generationsController.list
-  )
+  );
   app.delete(
-    '/api/families/:familyId/generations/:generationId',
+    "/api/families/:familyId/generations/:generationId",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
     generationsController.destroy
-  )
+  );
 
   // Peoples routes
   app.post(
-    '/api/families/:familyId/generations/:generationId/peoples',
+    "/api/families/:familyId/generations/:generationId/peoples",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
 
     peoplesController.create
-  )
+  );
   app.get(
-    '/api/families/:familyId/generations/:generationId/peoples',
+    "/api/families/:familyId/generations/:generationId/peoples",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
     peoplesController.list
-  )
+  );
   app.delete(
-    '/api/families/:familyId/generations/:generationId/peoples/:peopleId',
+    "/api/families/:familyId/generations/:generationId/peoples/:peopleId",
     userMiddlewares.checkToken,
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate("jwt", { session: false }),
     peoplesController.destroy
-  )
-}
+  );
+};

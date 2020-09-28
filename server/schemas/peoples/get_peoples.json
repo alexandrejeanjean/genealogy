@@ -1,12 +1,17 @@
 {
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "firstname": {
-        "type": "string"
-      },
-      "lastname": {
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
+    },
+    "roles": [
+      {
         "type": "string"
       }
-    }
+    ]
   }
+}

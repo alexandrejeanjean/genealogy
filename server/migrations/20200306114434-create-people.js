@@ -6,20 +6,20 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       firstname: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       lastname: { allowNull: false, type: Sequelize.STRING },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       familyId: {
         type: Sequelize.INTEGER,
@@ -27,8 +27,8 @@ module.exports = {
         references: {
           model: "Families",
           key: "id",
-          as: "familyId"
-        }
+          as: "familyId",
+        },
       },
       generationId: {
         type: Sequelize.INTEGER,
@@ -36,12 +36,12 @@ module.exports = {
         references: {
           model: "Generations",
           key: "id",
-          as: "generationId"
-        }
-      }
+          as: "generationId",
+        },
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable("People");
-  }
+  },
 };
