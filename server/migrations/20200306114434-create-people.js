@@ -13,6 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       lastname: { allowNull: false, type: Sequelize.STRING },
+      roleId: { allowNull: false, type: Sequelize.INTEGER },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

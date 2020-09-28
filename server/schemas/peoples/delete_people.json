@@ -9,10 +9,6 @@
     "generationId": {
       "type": "string",
       "minLength": 1
-    },
-    "peopleId": {
-      "type": "string",
-      "minLength": 1
     }
   }
 }

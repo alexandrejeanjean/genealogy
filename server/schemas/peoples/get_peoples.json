@@ -8,10 +8,8 @@
     "lastname": {
       "type": "string"
     },
-    "roles": [
-      {
-        "type": "string"
-      }
-    ]
+    "roleId": {
+      "type": "string"
+    }
   }
 }

@@ -1,5 +1,4 @@
 const People = require("../models").People;
-const Role = require("../models").Role;
 const ajv = require("../utils/ajv");
 
 const validPostItemParams = ajv.compile(
@@ -19,12 +18,13 @@ module.exports = {
         error: validPostItemParams.errors,
       });
     }
+    console.log("CREATE :: ", req.body);
     return People.create({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       familyId: req.params.familyId,
       generationId: req.params.generationId,
-      roles: req.body.roles,
+      roleId: req.body.roleId,
     })
       .then((people) => res.status(201).send(people))
       .catch((error) => res.status(400).send(error));
@@ -36,12 +36,6 @@ module.exports = {
         familyId: req.params.familyId,
         generationId: req.params.generationId,
       },
-      include: [
-        {
-          model: Role,
-          as: "roles",
-        },
-      ],
     })
       .then((peoples) => res.status(200).send(peoples))
       .catch((error) => res.status(400).send(error));
