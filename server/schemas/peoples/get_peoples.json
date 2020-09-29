@@ -1,12 +1,15 @@
 {
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "firstname": {
-        "type": "string"
-      },
-      "lastname": {
-        "type": "string"
-      }
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
+    },
+    "roleId": {
+      "type": "string"
     }
   }
+}

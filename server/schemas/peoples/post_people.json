@@ -1,18 +1,19 @@
 {
-    "type": "object",
-    "additionalProperties": true,
-    "properties": {
-      "firstname": {
-        "type": "string",
-        "minLength": 1
-      },
-      "lastname": {
-        "type": "string",
-        "minLength": 1
-      }
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "firstname": {
+      "type": "string",
+      "minLength": 1
     },
-    "required": [
-      "firstname",
-      "lastname"
-    ]
-  }
+    "lastname": {
+      "type": "string",
+      "minLength": 1
+    },
+    "roleId": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": ["firstname", "lastname", "roleId"]
+}

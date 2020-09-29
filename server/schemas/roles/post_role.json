@@ -1,12 +1,12 @@
 {
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "properties": {
-    "name": {
+    "role": {
       "type": "string",
       "minLength": 1,
       "maxLength": 250
     }
   },
-  "required": ["name"]
+  "required": ["role"]
 }
