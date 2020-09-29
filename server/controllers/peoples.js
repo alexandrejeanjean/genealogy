@@ -18,7 +18,7 @@ module.exports = {
         error: validPostItemParams.errors,
       });
     }
-    console.log("CREATE :: ", req.body);
+
     return People.create({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
@@ -49,6 +49,8 @@ module.exports = {
         error: validDeleteItemParams.errors,
       });
     }
+
+    console.log("ON DELETE");
 
     return People.findOne({
       where: {
