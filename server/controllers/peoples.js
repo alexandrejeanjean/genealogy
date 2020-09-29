@@ -8,14 +8,6 @@ const validPostItemParams = ajv.compile(
 const validDeleteItemParams = ajv.compile(
   require("../schemas/peoples/delete_people.json")
 );
-
-const validPostItemParams = ajv.compile(
-  require("../schemas/peoples/post_people.json")
-);
-
-const validDeleteItemParams = ajv.compile(
-  require("../schemas/peoples/delete_people.json")
-);
 module.exports = {
   create(req, res) {
     // check params
