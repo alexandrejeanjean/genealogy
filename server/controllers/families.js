@@ -1,6 +1,5 @@
 const Family = require("../models").Family;
 const Generation = require("../models").Generation;
-
 const ajv = require("../utils/ajv");
 const validPostItemParams = ajv.compile(
   require("../schemas/families/post_family.json")
