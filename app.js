@@ -15,7 +15,10 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-var allowedOrigins = ["http://localhost:3000"];
+var allowedOrigins = [
+  "http://localhost:3000",
+  "https://family-tree-app-app.herokuapp.com/",
+];
 
 app.use(
   cors({
