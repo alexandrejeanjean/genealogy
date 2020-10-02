@@ -48,4 +48,10 @@ app.get("*", (req, res) =>
   })
 );
 
+if (process.env.NODE_ENV === "production") {
+  app.listen(parseInt(process.env.PORT, 10) || 3000, () =>
+    console.log("Api is ON")
+  );
+}
+
 module.exports = app;
