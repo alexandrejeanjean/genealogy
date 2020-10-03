@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var allowedOrigins = [
   "http://localhost:3000",
   "https://family-tree-app-app.herokuapp.com/",
+  "http://family-tree-app-app.herokuapp.com/",
 ];
 
 app.use(
