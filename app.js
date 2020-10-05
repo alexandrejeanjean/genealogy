@@ -3,6 +3,8 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cors = require("cors");
+const redirectionFilter = require("./server/helpers").redirectionFilter;
+
 // set up the express app
 const app = express();
 
@@ -45,11 +47,7 @@ require("./server/routes/public")(app);
 require("./server/routes/private")(app);
 
 // Setup a default catch-all route that sends back a welcome
-app.get("*", (req, res) =>
-  res.status(200).send({
-    message: "API is ON",
-  })
-);
+app.get("/*", redirectionFilter);
 
 if (process.env.NODE_ENV === "production") {
   app.listen(parseInt(process.env.PORT, 10) || 3000, () =>
