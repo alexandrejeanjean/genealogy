@@ -1,10 +1,19 @@
-const User = require('../models').User
-const jwt = require('jsonwebtoken')
+const User = require("../models").User;
+const jwt = require("jsonwebtoken");
+const ajv = require("../utils/ajv");
+
+const validPostItemParams = ajv.compile(
+  require("../schemas/users/post_user.json")
+);
 
 module.exports = {
   create(req, res) {
-    if (!req.body.username || !req.body.password) {
-      res.status(400).send({ msg: 'Please pass username and password.' })
+    // check params
+    if (!validPostItemParams(req.body)) {
+      return res.status(400).json({
+        message: "Invalid params",
+        error: validPostItemParams.errors,
+      });
     } else {
       User.create({
         username: req.body.username,
@@ -12,9 +21,9 @@ module.exports = {
       })
         .then((user) => res.status(201).send(user))
         .catch((error) => {
-          console.log(error)
-          res.status(400).send(error)
-        })
+          console.log(error);
+          res.status(400).send(error);
+        });
     }
   },
 
@@ -24,12 +33,12 @@ module.exports = {
       .then((user) => {
         if (!user) {
           return res.status(400).send({
-            message: 'User not found.',
-          })
+            message: "User not found.",
+          });
         }
-        return res.status(201).send({ id: user.id, username: user.username })
+        return res.status(201).send({ id: user.id, username: user.username });
       })
-      .catch((error) => res.status(400).send(error))
+      .catch((error) => res.status(400).send(error));
   },
 
   signin(req, res) {
@@ -41,28 +50,28 @@ module.exports = {
       .then((user) => {
         if (!user) {
           return res.status(401).send({
-            message: 'Authentication failed. User not found.',
-          })
+            message: "Authentication failed. User not found.",
+          });
         }
         user.comparePassword(req.body.password, (err, isMatch) => {
           if (isMatch && !err) {
             var token = jwt.sign(
               JSON.parse(JSON.stringify(user)),
-              'nodeauthsecret',
+              "nodeauthsecret",
               { expiresIn: 86400 * 30 }
-            )
-            jwt.verify(token, 'nodeauthsecret', function (err, data) {
-              console.log(err, data)
-            })
-            res.json({ success: true, token: 'JWT ' + token })
+            );
+            jwt.verify(token, "nodeauthsecret", function (err, data) {
+              console.log(err, data);
+            });
+            res.json({ success: true, token: "JWT " + token });
           } else {
             res.status(401).send({
               success: false,
-              msg: 'Authentication failed. Wrong password.',
-            })
+              msg: "Authentication failed. Wrong password.",
+            });
           }
-        })
+        });
       })
-      .catch((error) => res.status(400).send(error))
+      .catch((error) => res.status(400).send(error));
   },
-}
+};
