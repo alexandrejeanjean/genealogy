@@ -1,12 +1,15 @@
-const express = require("express");
-const logger = require("morgan");
-const bodyParser = require("body-parser");
-const passport = require("passport");
-const cors = require("cors");
+import "dotenv/config.js";
+import express from "express";
+import logger from "morgan";
+import bodyParser from "body-parser";
+import passport from "passport";
+import cors from "cors";
+import routes from "./server/routes";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger";
+
 // set up the express app
 const app = express();
-
-require("dotenv").config();
 
 // Log requests to console
 app.use(logger("dev"));
@@ -42,8 +45,14 @@ app.use(
 require("./server/config/passport")(passport);
 
 // Require our routes into the application.
-require("./server/routes/public")(app);
-require("./server/routes/private")(app);
+routes(app);
+
+// Swagger JSDoc
+app.get("/swagger.json", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
+app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Setup a default catch-all route that sends back a welcome
 app.get("*", (req, res) =>

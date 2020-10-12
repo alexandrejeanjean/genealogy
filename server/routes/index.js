@@ -1,19 +1,35 @@
-const familiesController = require("../../controllers").families;
-const generationsController = require("../../controllers").generations;
-const peoplesController = require("../../controllers").peoples;
-const rolesController = require("../../controllers").roles;
-const usersController = require("../../controllers").users;
-const userMiddlewares = require("../../middlewares").user;
-const passport = require("passport");
+import rolesController from "../controllers/roles";
+import peoplesController from "../controllers/peoples";
+import generationsController from "../controllers/generations";
+import familiesController from "../controllers/families";
+import usersController from "../controllers/users";
+import userMiddlewares from "../middlewares/user";
 
-module.exports = (app) => {
+import passport from "passport";
+
+export default (app) => {
+  app.get("/api", (req, res) =>
+    res.status(200).send({
+      message: "Welcome to the Family tree API!",
+    })
+  );
+
+  // User routes --------------------------------------------
+  app.post(
+    "/api/signup",
+    userMiddlewares.checkUsername,
+    usersController.create
+  );
+
+  app.post("/api/signin", usersController.signin);
+
   app.get("/api", (req, res) =>
     res.status(200).send({
       message: "Welcome to the genealogy API!",
     })
   );
 
-  // User infos routes
+  // User infos routes --------------------------------------
   app.get(
     "/api/me",
     userMiddlewares.checkToken,
@@ -21,7 +37,7 @@ module.exports = (app) => {
     usersController.getMe
   );
 
-  // People roles routes
+  // People roles routes -------------------------------------
   app.post(
     "/api/roles",
     userMiddlewares.checkToken,
@@ -36,7 +52,7 @@ module.exports = (app) => {
     rolesController.list
   );
 
-  // Families routes
+  // Families routes ------------------------------------------
   app.post(
     "/api/families",
     userMiddlewares.checkToken,
@@ -56,7 +72,7 @@ module.exports = (app) => {
     familiesController.destroy
   );
 
-  // Generations routes
+  // Generations routes ----------------------------------------
   app.post(
     "/api/families/:familyId/generations",
     userMiddlewares.checkToken,
@@ -76,7 +92,7 @@ module.exports = (app) => {
     generationsController.destroy
   );
 
-  // Peoples routes
+  // Peoples routes -----------------------------------------------
   app.post(
     "/api/families/:familyId/generations/:generationId/peoples",
     userMiddlewares.checkToken,

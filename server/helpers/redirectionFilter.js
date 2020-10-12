@@ -1,4 +1,4 @@
-const redirectionFilter = function (req, res, next) {
+const redirectionFilter = (req, res, next) => {
   const theDate = new Date();
   const receivedUrl = `${req.protocol}:\/\/${req.hostname}:${port}${req.url}`;
 
@@ -10,3 +10,5 @@ const redirectionFilter = function (req, res, next) {
     next();
   }
 };
+
+export default redirectionFilter;

@@ -1,6 +1,5 @@
-const getToken = require("./getToken");
-const redirectionFilter = require("./redirectionFilter");
-module.exports = {
+import getToken from "./getToken";
+
+export default {
   getToken,
-  redirectionFilter,
 };

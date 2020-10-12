@@ -1,13 +1,15 @@
-const User = require("../models").User;
-const jwt = require("jsonwebtoken");
-const ajv = require("../utils/ajv");
+import model from "../models";
+import jwt from "jsonwebtoken";
+import ajv from "../utils/ajv";
+
+const { User } = model;
 
 const validPostItemParams = ajv.compile(
   require("../schemas/users/post_user.json")
 );
 
-module.exports = {
-  create(req, res) {
+export default class Users {
+  static create(req, res) {
     // check params
     if (!validPostItemParams(req.body)) {
       return res.status(400).json({
@@ -25,10 +27,10 @@ module.exports = {
           res.status(400).send(error);
         });
     }
-  },
+  }
 
   /* Get user information */
-  getMe(req, res) {
+  static getMe(req, res) {
     User.findByPk(req.user.dataValues.id)
       .then((user) => {
         if (!user) {
@@ -39,9 +41,9 @@ module.exports = {
         return res.status(201).send({ id: user.id, username: user.username });
       })
       .catch((error) => res.status(400).send(error));
-  },
+  }
 
-  signin(req, res) {
+  static signin(req, res) {
     User.findOne({
       where: {
         username: req.body.username,
@@ -65,7 +67,7 @@ module.exports = {
             });
             res.json({ success: true, token: "JWT " + token });
           } else {
-            res.status(401).send({
+            res.status(403).send({
               success: false,
               msg: "Authentication failed. Wrong password.",
             });
@@ -73,5 +75,5 @@ module.exports = {
         });
       })
       .catch((error) => res.status(400).send(error));
-  },
-};
+  }
+}

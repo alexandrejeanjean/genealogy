@@ -1,5 +1,7 @@
-const People = require("../models").People;
-const ajv = require("../utils/ajv");
+import model from "../models";
+import ajv from "../utils/ajv";
+
+const { People } = model;
 
 const validPostItemParams = ajv.compile(
   require("../schemas/peoples/post_people.json")
@@ -9,8 +11,8 @@ const validDeleteItemParams = ajv.compile(
   require("../schemas/peoples/delete_people.json")
 );
 
-module.exports = {
-  create(req, res) {
+export default class Peoples {
+  static create(req, res) {
     // check params
     if (!validPostItemParams(req.body)) {
       return res.status(400).json({
@@ -28,9 +30,9 @@ module.exports = {
     })
       .then((people) => res.status(201).send(people))
       .catch((error) => res.status(400).send(error));
-  },
+  }
 
-  list(req, res) {
+  static list(req, res) {
     return People.findAll({
       where: {
         familyId: req.params.familyId,
@@ -39,8 +41,9 @@ module.exports = {
     })
       .then((peoples) => res.status(200).send(peoples))
       .catch((error) => res.status(400).send(error));
-  },
-  destroy(req, res) {
+  }
+
+  static destroy(req, res) {
     // check params
     console.log("CHECKING :: ", req.params);
     if (!validDeleteItemParams(req.params)) {
@@ -69,5 +72,5 @@ module.exports = {
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
-  },
-};
+  }
+}
