@@ -4,10 +4,12 @@ import generationsController from "../controllers/generations";
 import familiesController from "../controllers/families";
 import usersController from "../controllers/users";
 import userMiddlewares from "../middlewares/user";
+import roleMiddlewares from "../middlewares/role";
 
 import passport from "passport";
 
 export default (app) => {
+  // ================================= Public routes =======================================
   app.get("/api", (req, res) =>
     res.status(200).send({
       message: "Welcome to the Family tree API!",
@@ -29,10 +31,10 @@ export default (app) => {
     })
   );
 
+  // ================================= Privates routes =======================================
   // User infos routes --------------------------------------
   app.get(
     "/api/me",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     usersController.getMe
   );
@@ -40,14 +42,13 @@ export default (app) => {
   // People roles routes -------------------------------------
   app.post(
     "/api/roles",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
+    roleMiddlewares.checkExistingRole,
     rolesController.create
   );
 
   app.get(
     "/api/roles",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     rolesController.list
   );
@@ -55,39 +56,33 @@ export default (app) => {
   // Families routes ------------------------------------------
   app.post(
     "/api/families",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     familiesController.create
   );
   app.get(
     "/api/families",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     familiesController.list
   );
   app.delete(
     "/api/families/:familyId",
     passport.authenticate("jwt", { session: false }),
-    userMiddlewares.checkToken,
     familiesController.destroy
   );
 
   // Generations routes ----------------------------------------
   app.post(
     "/api/families/:familyId/generations",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     generationsController.create
   );
   app.get(
     "/api/families/:familyId/generations",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     generationsController.list
   );
   app.delete(
     "/api/families/:familyId/generations/:generationId",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     generationsController.destroy
   );
@@ -95,20 +90,17 @@ export default (app) => {
   // Peoples routes -----------------------------------------------
   app.post(
     "/api/families/:familyId/generations/:generationId/peoples",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
 
     peoplesController.create
   );
   app.get(
     "/api/families/:familyId/generations/:generationId/peoples",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     peoplesController.list
   );
   app.delete(
     "/api/families/:familyId/generations/:generationId/peoples/:peopleId",
-    userMiddlewares.checkToken,
     passport.authenticate("jwt", { session: false }),
     peoplesController.destroy
   );

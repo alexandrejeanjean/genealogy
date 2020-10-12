@@ -4,12 +4,15 @@ import logger from "morgan";
 import bodyParser from "body-parser";
 import passport from "passport";
 import cors from "cors";
+import helmet from "helmet";
 import routes from "./server/routes";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger";
 
 // set up the express app
 const app = express();
+
+app.use(helmet());
 
 // Log requests to console
 app.use(logger("dev"));

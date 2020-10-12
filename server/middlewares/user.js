@@ -7,7 +7,6 @@ const { getToken } = helpers;
 export default class UserMiddlewares {
   // Check authorization token
   static checkToken(req, res, next) {
-    console.log("request ::", req.headers);
     var token = getToken(req.headers);
     if (token) {
       next();
